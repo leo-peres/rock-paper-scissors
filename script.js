@@ -32,18 +32,19 @@ function playGame() {
         }
         else if((human - computer + 3)%3 == 2) {
             alert(`You won because ${humanChoice} beats ${computerChoice}.`);
-            humanScore++;
             return "human";
         }
-        else
+        else {
             alert(`You lost because ${computerChoice} beats ${humanChoice}.`);
-            computerScore++;
             return "computer";
+        }
 
     }
 
     while(humanScore < 3 && computerScore < 3) {
-        playRound(getHumanChoice(), getComputerChoice());
+        let roundResult = playRound(getHumanChoice(), getComputerChoice());
+        humanScore += roundResult === "human" ? 1 : 0;
+        computerScore += roundResult === "computer" ? 1 : 0;
         alert(`The score is now\nHuman: ${humanScore}\nComputer: ${computerScore}`);
     }
 
