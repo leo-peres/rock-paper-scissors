@@ -6,12 +6,11 @@ function getComputerChoice() {
 function getHumanChoice() {
     let userInput =  prompt("Type one of:\n  - Rock\n  - Paper\n  - Scissor").toLowerCase();
     let stringArray = ["rock", "paper", "scissor"];
-    if(stringArray.find(s => s === userInput) === undefined) {
-        alert("Invalid input!");
-        return;
+    while(stringArray.find(s => s === userInput) === undefined) {
+        alert("Invalid input.");
+        userInput =  prompt("Type one of:\n  - Rock\n  - Paper\n  - Scissor").toLowerCase();
     }
-    else
-        return userInput;
+    return userInput;
 }
 
 function playGame() {
