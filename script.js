@@ -53,3 +53,5 @@ function playGame() {
         alert("Computer won.")
 
 }
+
+playGame();
