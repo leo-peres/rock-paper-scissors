@@ -1,58 +1,60 @@
+function playRoundEventHandler(e) {
+
+    computerChoice = getComputerChoice();
+
+    switch(e.target.id) {
+        case "rock-btn":
+            playRound("rock", computerChoice);
+            break;
+        case "paper-btn":
+            playRound("paper", computerChoice);
+            break;
+        case "scissors-btn":
+            playRound("scissors", computerChoice);
+            break;
+        default:
+            alert("a");
+    }
+
+}
+
+const buttonList = document.querySelector("#button-list");
+buttonList.addEventListener("click", playRoundEventHandler);
+
+const roundResultP = document.querySelector("#round-result");
+const humanScoreP = document.querySelector("#human-score");
+const computerScoreP = document.querySelector("#computer-score");
+
+let humanScore = 0;
+let computerScore = 0;
+
+function updateScore() {
+    humanScoreP.textContent = `Human: ${humanScore}`;
+    computerScoreP.textContent = `Computer: ${computerScore}`;
+}
+
 function getComputerChoice() {
     let r = Math.floor(3*Math.random());
-    return (r == 0 && "rock") || (r == 1 && "paper") || (r == 2 && "scissor");
+    return (r == 0 && "rock") || (r == 1 && "paper") || (r == 2 && "scissors");
 }
 
-function getHumanChoice() {
-    let userInput =  prompt("Type one of:\n  - Rock\n  - Paper\n  - Scissor").toLowerCase();
-    let stringArray = ["rock", "paper", "scissor"];
-    while(stringArray.find(s => s === userInput) === undefined) {
-        alert("Invalid input.");
-        userInput =  prompt("Type one of:\n  - Rock\n  - Paper\n  - Scissor").toLowerCase();
+function playRound(humanChoice, computerChoice) {
+
+    //rock > scissors > paper > rock
+    let auxArray = ["rock", "scissors", "paper"];
+    let human = auxArray.findIndex(s => s === humanChoice);
+    let computer = auxArray.findIndex(s => s === computerChoice);
+    if(human == computer)
+        roundResultP.textContent = "There was a tie.";
+    else if((human - computer + 3)%3 == 2) {
+        roundResultP.textContent = `You won because ${humanChoice} beats ${computerChoice}.`;
+        humanScore++;
     }
-    return userInput;
-}
-
-function playGame() {
-
-    let humanScore = 0;
-    let computerScore = 0;
-
-    let playRound = function (humanChoice, computerChoice) {
-
-        alert(`You chose ${humanChoice} and the computer chose ${computerChoice}.`);
-
-        //rock > scissors > paper > rock
-        let auxArray = ["rock", "scissor", "paper"];
-        let human = auxArray.findIndex(s => s === humanChoice);
-        let computer = auxArray.findIndex(s => s === computerChoice);
-        if(human == computer) {
-            alert(`There was a tie.`);
-            return "tie";
-        }
-        else if((human - computer + 3)%3 == 2) {
-            alert(`You won because ${humanChoice} beats ${computerChoice}.`);
-            return "human";
-        }
-        else {
-            alert(`You lost because ${computerChoice} beats ${humanChoice}.`);
-            return "computer";
-        }
-
+    else {
+        roundResultP.textContent = `You lost because ${computerChoice} beats ${humanChoice}.`;
+        computerScore++;
     }
 
-    while(humanScore < 3 && computerScore < 3) {
-        let roundResult = playRound(getHumanChoice(), getComputerChoice());
-        humanScore += roundResult === "human" ? 1 : 0;
-        computerScore += roundResult === "computer" ? 1 : 0;
-        alert(`The score is now\nHuman: ${humanScore}\nComputer: ${computerScore}`);
-    }
-
-    if(humanScore == 3)
-        alert("You won.");
-    else
-        alert("Computer won.")
+    updateScore();
 
 }
-
-playGame();
