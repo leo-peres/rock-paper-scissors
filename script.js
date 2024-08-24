@@ -86,7 +86,7 @@ function playRound(humanChoice, computerChoice) {
     let human = auxArray.findIndex(s => s === humanChoice);
     let computer = auxArray.findIndex(s => s === computerChoice);
     if(human == computer)
-        roundResultP.textContent = " There was a tie.";
+        roundResultP.textContent += " There was a tie.";
     else if((human - computer + 3)%3 == 2) {
         roundResultP.textContent += ` You won because ${humanChoice} beats ${computerChoice}.`;
         humanScore++;
